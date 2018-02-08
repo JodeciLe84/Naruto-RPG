@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Naruto RPG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style>
+        .fader{
+            opacity : 0.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id ="characters" class="row">
+
+        </div>
+        <div id ="gameplay" class="row">
+        </div>
+    </div>
+
+    <script
+    src="http://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+
+<script>
+
+$( document).ready ( function() {
+    var chosenHero
+    var chosenEnemy
+    var isHeroChosen
+    var isEnemyChosen
+    var isHeroAlive
+    var isEnemyAlive
+
+    function initGame () {
+        isHeroChosen =false
+        isEnemyChosen =false
+        for(var i=0; i < charArr.length; i++){
+            console.log(charArr[i].image)
+            var num =  Math.floor(12 / charArr.length)
+            var charThing = $("<div class='myChar col-md-"+num+
+            "'value='"+i+"'><img src='"+charArr[i].image+"'style='width:150px;height:240px;'/></div>")
+            $("#characters").append(charThing)
+        }
+    }
+    $(document).on("click",".myChar", function() {
+        if (isHeroChosen === false) {
+            chosenHero = charArr[$(this).attr("value")]
+            console.log(chosenHero)
+        $(this).addClass("fader")
+            isHeroChosen = true
+        }
+        else if (isEnemyChosen === false &&
+        chosenHero.name != charArr[$(this).attr("value")
+        ].name) {
+            chosenEnemy = charArr[$(this).attr("value")]
+            console.log(chosenEnemy)
+        $(this).addClass("fader")
+            isEnemyChosen = true
+        }
+    })
+
+    var charArr = [{
+        name: "Naruto",
+        hp: 50,
+        strength: 10,
+        image:"assets/images/Naruto.png"
+        },
+        {
+        name: "Sasuke",
+        hp:50,
+        strength:10,
+        image:"assets/images/Sasuke.png"
+        },
+        {
+        name: "Sakura",
+        hp: 80,
+        strength:10,
+        image:"assets/images/sakura.png"
+        },
+        {
+        name: "Itachi",
+        hp:80,
+        strength:10,
+        image:"assets/images/Itachi.png"
+        },
+        {
+        name: "Orochimaru ",
+        hp: 80,
+        strength:10,
+        image:"assets/images/Orchimaru.png"
+        },
+        ]
+
+        initGame()
+    })
+</script>
+</body>
+</html>
