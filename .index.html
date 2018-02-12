@@ -1,105 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Naruto RPG</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <style>
-        .fader{
-            opacity : 0.4;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Naruto RPG</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style>
+.fader{
+opacity : 0.4;
+}
+</style>
 </head>
 
 <body>
-
-    <div class="container">
-        <div id ="characters" class="row">
-
-        </div>
-        <div id ="gameplay" class="row">
-        </div>
+<div class="container">
+  <!-- First Row -->
+  <div id ="characters" class="row">
+  </div>
+  <!-- Second Row -->
+  <div id ="gameplay" class="row">
+    <div id="myHero" class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+      <div id="attkRow" class="row-md-12 ">
+        <button id="attackBTN" class="btn btn-danger">ATTACK</button>
+      </div>
+      <div id="myBattle" class="row-md-12 ">
+      </div>
     </div>
+    <div id="myEnemy" class="col-md-4"></div>
+  </div>
+</div>
 
-    <script
-    src="http://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+<script
+src="http://code.jquery.com/jquery-3.3.1.js"
+integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+crossorigin="anonymous"></script>
 
 <script>
 
-$( document).ready ( function() {
-    var chosenHero
-    var chosenEnemy
-    var isHeroChosen
-    var isEnemyChosen
-    var isHeroAlive
-    var isEnemyAlive
+$(document).ready ( function() {
+var chosenHero
+var chosenEnemy
+var isHeroChosen
+var isEnemyChosen
+var isHeroAlive
+var isEnemyAlive
 
-    function initGame () {
-        isHeroChosen =false
-        isEnemyChosen =false
-        for(var i=0; i < charArr.length; i++){
-            console.log(charArr[i].image)
-            var num =  Math.floor(12 / charArr.length)
-            var charThing = $("<div class='myChar col-md-"+num+
-            "'value='"+i+"'><img src='"+charArr[i].image+"'style='width:150px;height:240px;'/></div>")
-            $("#characters").append(charThing)
-        }
-    }
-    $(document).on("click",".myChar", function() {
-        if (isHeroChosen === false) {
-            chosenHero = charArr[$(this).attr("value")]
-            console.log(chosenHero)
-        $(this).addClass("fader")
-            isHeroChosen = true
-        }
-        else if (isEnemyChosen === false &&
-        chosenHero.name != charArr[$(this).attr("value")
-        ].name) {
-            chosenEnemy = charArr[$(this).attr("value")]
-            console.log(chosenEnemy)
-        $(this).addClass("fader")
-            isEnemyChosen = true
-        }
+function initGame () {
+isHeroChosen =false
+isEnemyChosen =false
+
+// Getting Charter to show in first Row
+for(var i=0; i < charArr.length; i++){
+console.log(charArr[i].image)
+var num = Math.floor(12 / charArr.length)
+var charThing = $("<div class='myChar col-md-"+num+
+"'value='"+i+"'><img src='"+charArr[i].image+"'style='width:120px;height:200px;'/></div>")
+$("#characters").append(charThing)
+}
+}
+
+//function 1 Selecting Hero
+$(document).on("click",".myChar", function() {
+  if (isHeroChosen === false) {
+  // this code makes chosenHero becomes the hero you click in the charArr index
+  chosenHero = charArr[$(this).attr("value")]
+  console.log(chosenHero)
+  $(this).addClass("fader")
+  isHeroChosen = true
+  myHeroThing = $("<div id='" +
+  chosenHero.name +"'><img src='" +
+  chosenHero.image+"' style='width:280px;height:500px;'/> <p>" +
+  chosenHero.name+"</p><h6>HP</h6><p id='heroHP'>"+chosenHero.hp +
+  "</p></div>")
+  $("#myHero").html(myHeroThing)
+  }
+
+  // Selecting Enemy
+  else if (isEnemyChosen === false &&
+  chosenHero.name != charArr[$(this).attr("value")
+  ].name) {
+  chosenEnemy = charArr[$(this).attr("value")]
+  console.log(chosenEnemy)
+  $(this).addClass("fader")
+  isEnemyChosen = true
+  myEnemyThing = $("<div id='" +
+  chosenEnemy.name + "'><img src='" +
+  chosenEnemy.image + "' style='width:280px;height:500px;'/> <p>" +
+  chosenEnemy.name + "</p><h6>HP</h6><p id='enemyHP'>"+chosenEnemy.hp +
+  "</p> </div>")
+  $("#myEnemy").html(myEnemyThing)
+  }
+})
+
+  //function 2 Attack Button
+$("#attackBTN").on("click", function() {
+  var num1 = Math.floor(Math.random()*20)
+  var num2 = Math.floor(Math.random()*20)
+  chosenEnemy.hp -= num1
+  $("#enemyHP").text(chosenEnemy.hp)
+  $("#myBattle").append("<p>" +
+  chosenHero.name + " attacked " +
+  chosenEnemy.name + " for " + num1 + " points!</p>")
+  chosenHero.hp -= num2
+  $("#heroHP").text(chosenHero.hp)
+  $("#myBattle").append("<p>" +
+  chosenEnemy.name + " attacked " +
+  chosenHero.name + " for " + num2 + " points!</p>")
+  winOrLose()
+})
+
+// function 3 WIN or LOSE
+function winOrLose() {
+  if (chosenHero.hp <= 0) {
+    console.log("you lose")
+    var reBTN = '<button id="replayButton" class="btn btn-primary"> Play Again </button>'
+    $("#myBattle").empty()
+    $("#attkRow").empty()
+    $("#myBattle").html("<h2> You Lose</h2>" + "<h1>GAME OVER</h1>" + reBTN)
+    isHeroAlive = false
+    isEnemyAlive = true$
+    ("#replayButton").on("click", function() {
+    window.location.reload()
     })
-
-    var charArr = [{
-        name: "Naruto",
-        hp: 50,
-        strength: 10,
-        image:"assets/images/Naruto.png"
-        },
-        {
-        name: "Sasuke",
-        hp:50,
-        strength:10,
-        image:"assets/images/Sasuke.png"
-        },
-        {
-        name: "Sakura",
-        hp: 80,
-        strength:10,
-        image:"assets/images/sakura.png"
-        },
-        {
-        name: "Itachi",
-        hp:80,
-        strength:10,
-        image:"assets/images/Itachi.png"
-        },
-        {
-        name: "Orochimaru ",
-        hp: 80,
-        strength:10,
-        image:"assets/images/Orchimaru.png"
-        },
-        ]
-
-        initGame()
+  }
+  else if (chosenEnemy.hp <=0) {
+    console.log("you win")
+    $("#myBattle").empty()
+    $("#myEnemy").empty()
+    $("#myBattle").html("<h2> You Win</h2>" + "<h1>Select another Opponent</h1>")
+    isHeroAlive = true
+    isEnemyAlive = false
+  }
+  if ( isHeroAlive && !isEnemyAlive ) {
+    $(document).on("click",".myChar", function(){
     })
+  }
+  else if ( isEnemyAlive && !isHeroAlive){
+
+  }
+}
+// name, hp, strength, image
+var charArr = [
+{
+name: "Sasuke",
+hp:100,
+strength:24,
+image:"assets/images/Sasuke.png"
+},
+{
+name: "Sakura",
+hp: 80,
+strength:15,
+image:"assets/images/sakura.png"
+},
+{
+name: "Naruto",
+hp: 110,
+strength: 22,
+image:"assets/images/Naruto.jpg"
+},
+{
+name: "Kakashi",
+hp: 130,
+strength: 24,
+image:"assets/images/Kakashi.jpg"
+},
+{
+name: "Itachi",
+hp:150,
+strength:25,
+image:"assets/images/Itachi.png"
+},
+{
+name: "Orochimaru ",
+hp: 160,
+strength:30,
+image:"assets/images/Orchimaru.jpg"
+},
+]
+
+initGame()
+})
 </script>
 </body>
 </html>
