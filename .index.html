@@ -6,10 +6,25 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Naruto RPG</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Brush+Script" rel="stylesheet">
 <style>
 .fader{
-opacity : 0.4;
+    opacity : 0.4;
 }
+body{
+    background-image: url('assets/images/leaf-village.jpg');
+    background-size: cover;
+}
+*{
+    font-family: 'Nanum Brush Script', cursive;
+    color: white;
+    font-size:  28px;
+}
+<audio controls autoplay loop>
+<source src="game-theme.mp3" type="audio/ogg">
+
+</audio>
+
 </style>
 </head>
 
@@ -50,12 +65,14 @@ var isEnemyAlive
 function initGame () {
 isHeroChosen =false
 isEnemyChosen =false
+// myMusic = new sound("gametheme.mp3");
+// myMusic.play();
 
 // Getting Charter to show in first Row
 for(var i=0; i < charArr.length; i++){
 console.log(charArr[i].image)
 var num = Math.floor(12 / charArr.length)
-var charThing = $("<div class='myChar col-md-"+num+
+var charThing = $("<div id='"+charArr[i].name +"' class='myChar col-md-"+num+
 "'value='"+i+"'><img src='"+charArr[i].image+"'style='width:120px;height:200px;'/></div>")
 $("#characters").append(charThing)
 }
@@ -72,9 +89,10 @@ $(document).on("click",".myChar", function() {
   myHeroThing = $("<div id='" +
   chosenHero.name +"'><img src='" +
   chosenHero.image+"' style='width:280px;height:500px;'/> <p>" +
-  chosenHero.name+"</p><h6>HP</h6><p id='heroHP'>"+chosenHero.hp +
+  chosenHero.name+"</p><h4>HP</h4><p id='heroHP'>"+chosenHero.hp +
   "</p></div>")
   $("#myHero").html(myHeroThing)
+  $("#"+ chosenHero.name).hide()
   }
 
   // Selecting Enemy
@@ -88,9 +106,10 @@ $(document).on("click",".myChar", function() {
   myEnemyThing = $("<div id='" +
   chosenEnemy.name + "'><img src='" +
   chosenEnemy.image + "' style='width:280px;height:500px;'/> <p>" +
-  chosenEnemy.name + "</p><h6>HP</h6><p id='enemyHP'>"+chosenEnemy.hp +
+  chosenEnemy.name + "</p><h4>HP</h4><p id='enemyHP'>"+chosenEnemy.hp +
   "</p> </div>")
   $("#myEnemy").html(myEnemyThing)
+  $("#"+ chosenEnemy.name).hide()
   }
 })
 
@@ -100,7 +119,7 @@ $("#attackBTN").on("click", function() {
   var num2 = Math.floor(Math.random()*20)
   chosenEnemy.hp -= num1
   $("#enemyHP").text(chosenEnemy.hp)
-  $("#myBattle").append("<p>" +
+  $("#myBattle").html("<p>" +
   chosenHero.name + " attacked " +
   chosenEnemy.name + " for " + num1 + " points!</p>")
   chosenHero.hp -= num2
@@ -119,10 +138,10 @@ function winOrLose() {
     $("#myBattle").empty()
     $("#attkRow").empty()
     $("#myBattle").html("<h2> You Lose</h2>" + "<h1>GAME OVER</h1>" + reBTN)
-    isHeroAlive = false
-    isEnemyAlive = true$
-    ("#replayButton").on("click", function() {
+    $("#replayButton").on("click", function() {
     window.location.reload()
+    isHeroAlive = false
+    isEnemyAlive =   true
     })
   }
   else if (chosenEnemy.hp <=0) {
@@ -130,13 +149,34 @@ function winOrLose() {
     $("#myBattle").empty()
     $("#myEnemy").empty()
     $("#myBattle").html("<h2> You Win</h2>" + "<h1>Select another Opponent</h1>")
+    $("#attkRow").hide()
     isHeroAlive = true
     isEnemyAlive = false
+    isEnemyChosen = false
   }
   if ( isHeroAlive && !isEnemyAlive ) {
-    $(document).on("click",".myChar", function(){
-    })
+
+    $(document).on("click",".myChar", function() {
+      $("#myBattle").empty()
+      $("#attkRow").show()
+      if (isEnemyChosen === false &&
+      chosenHero.name != charArr[$(this).attr("value")
+      ].name ) {
+        // &&  chosenEnemy.name !=
+      chosenEnemy = charArr[$(this).attr("value")]
+      $(this).addClass("fader")
+
+      isEnemyChosen = true
+      myEnemyThing = $("<div id='" +
+      chosenEnemy.name + "'><img src='" +
+      chosenEnemy.image + "' style='width:280px;height:500px;'/> <p>" +
+      chosenEnemy.name + "</p><h4>HP</h4><p id='enemyHP'>"+chosenEnemy.hp +
+      "</p> </div>")
+      $("#myEnemy").html(myEnemyThing)
+      }
+      })
   }
+
   else if ( isEnemyAlive && !isHeroAlive){
 
   }
@@ -159,7 +199,7 @@ image:"assets/images/sakura.png"
 name: "Naruto",
 hp: 110,
 strength: 22,
-image:"assets/images/Naruto.jpg"
+image:"assets/images/Naruto.png"
 },
 {
 name: "Kakashi",
