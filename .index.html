@@ -15,35 +15,40 @@ body{
     background-image: url('assets/images/leaf-village.jpg');
     background-size: cover;
 }
+#myEnemy, #myHero{
+  margin-top: 80px;
+}
 *{
     font-family: 'Nanum Brush Script', cursive;
     color: white;
-    font-size:  28px;
+    font-size:  32px;
 }
 </style>
-<audio autoplay >
-<source src="game-theme.mp3" type="audio/ogg">
-</audio>
 
 
 </head>
 
 <body>
-<div class="container">
+<audio id="introSong" controls autoplay >
+<source src="game-theme.mp3" type="audio/ogg">
+</audio>
+
+
+  <div class="container">
   <!-- First Row -->
   <div id ="characters" class="row">
   </div>
   <!-- Second Row -->
   <div id ="gameplay" class="row">
-    <div id="myHero" class="col-md-4"></div>
+    <div id="myHero" class="col-md-4 text-center"></div>
     <div class="col-md-4 text-center">
       <div id="attkRow" class="row-md-12 ">
         <button id="attackBTN" class="btn btn-danger">ATTACK</button>
       </div>
-      <div id="myBattle" class="row-md-12 ">
+      <div id="myBattle" class="row-md-12 text-center">
       </div>
     </div>
-    <div id="myEnemy" class="col-md-4"></div>
+    <div id="myEnemy" class="col-md-4 text-center"></div>
   </div>
 </div>
 
@@ -92,10 +97,10 @@ $(document).on("click",".myChar", function() {
   myHeroThing = $("<div id='" +
   chosenHero.name +"'><img src='" +
   chosenHero.image+"' style='width:280px;height:500px;'/> <p>" +
-  chosenHero.name+"</p><h4>HP</h4><p id='heroHP'>"+chosenHero.hp +
+  chosenHero.name+"</p> <h4>HP</h4> <p id='heroHP'>"+ chosenHero.hp +
   "</p></div>")
   $("#myHero").html(myHeroThing)
-  $("#"+ chosenHero.name).hide()
+  $("#"+ chosenHero.name).hide(500)
   }
 
   // Selecting Enemy
@@ -112,7 +117,8 @@ $(document).on("click",".myChar", function() {
   chosenEnemy.name + "</p><h4>HP</h4><p id='enemyHP'>"+chosenEnemy.hp +
   "</p> </div>")
   $("#myEnemy").html(myEnemyThing)
-  $("#"+ chosenEnemy.name).hide()
+  $("#"+ chosenEnemy.name).hide(500)
+  $("#characters").hide(800)
   }
 })
 
@@ -137,7 +143,9 @@ $("#attackBTN").on("click", function() {
 function winOrLose() {
   if (chosenHero.hp <= 0) {
     console.log("you lose")
-
+    $("#introSong").pause
+    $("#loseSong").play
+    
     var reBTN = '<button id="replayButton" class="btn btn-primary"> Play Again </button>'
     $("#myBattle").empty()
     $("#attkRow").empty()
@@ -155,7 +163,8 @@ function winOrLose() {
     $("#myBattle").empty()
     $("#myEnemy").empty()
     $("#myBattle").html("<h2> You Win</h2>" + "<h1>Select another Opponent</h1>")
-    $("#attkRow").hide()
+    $("#attkRow").hide(300)
+    $("#characters").show(800)
     isHeroAlive = true
     isEnemyAlive = false
     isEnemyChosen = false
@@ -164,7 +173,7 @@ function winOrLose() {
 
     $(document).on("click",".myChar", function() {
       $("#myBattle").empty()
-      $("#attkRow").show()
+      $("#attkRow").show(300)
     if (isEnemyChosen === false &&
       chosenHero.name != charArr[$(this).attr("value")
       ].name ) {
@@ -219,8 +228,8 @@ image:"assets/images/Itachi.png"
 },
 {
 name: "Orochimaru ",
-hp: 145,
-strength:33,
+hp: 140,
+strength:32,
 image:"assets/images/Orchimaru.jpg"
 },
 ]
