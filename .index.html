@@ -20,12 +20,12 @@ body{
     color: white;
     font-size:  28px;
 }
-<audio controls autoplay loop>
+</style>
+<audio autoplay >
 <source src="game-theme.mp3" type="audio/ogg">
-
 </audio>
 
-</style>
+
 </head>
 
 <body>
@@ -54,6 +54,7 @@ crossorigin="anonymous"></script>
 
 <script>
 
+
 $(document).ready ( function() {
 var chosenHero
 var chosenEnemy
@@ -61,6 +62,8 @@ var isHeroChosen
 var isEnemyChosen
 var isHeroAlive
 var isEnemyAlive
+
+
 
 function initGame () {
 isHeroChosen =false
@@ -134,6 +137,7 @@ $("#attackBTN").on("click", function() {
 function winOrLose() {
   if (chosenHero.hp <= 0) {
     console.log("you lose")
+
     var reBTN = '<button id="replayButton" class="btn btn-primary"> Play Again </button>'
     $("#myBattle").empty()
     $("#attkRow").empty()
@@ -145,7 +149,9 @@ function winOrLose() {
     })
   }
   else if (chosenEnemy.hp <=0) {
-    console.log("you win")
+    alert("Congratulations you LEVELED UP!")
+    chosenHero.hp+=115
+    chosenHero.strength+=15
     $("#myBattle").empty()
     $("#myEnemy").empty()
     $("#myBattle").html("<h2> You Win</h2>" + "<h1>Select another Opponent</h1>")
@@ -159,13 +165,11 @@ function winOrLose() {
     $(document).on("click",".myChar", function() {
       $("#myBattle").empty()
       $("#attkRow").show()
-      if (isEnemyChosen === false &&
+    if (isEnemyChosen === false &&
       chosenHero.name != charArr[$(this).attr("value")
       ].name ) {
-        // &&  chosenEnemy.name !=
       chosenEnemy = charArr[$(this).attr("value")]
       $(this).addClass("fader")
-
       isEnemyChosen = true
       myEnemyThing = $("<div id='" +
       chosenEnemy.name + "'><img src='" +
@@ -185,38 +189,38 @@ function winOrLose() {
 var charArr = [
 {
 name: "Sasuke",
-hp:100,
-strength:24,
+hp:110,
+strength:34,
 image:"assets/images/Sasuke.png"
 },
 {
 name: "Sakura",
-hp: 80,
-strength:15,
+hp: 110,
+strength:33,
 image:"assets/images/sakura.png"
 },
 {
 name: "Naruto",
-hp: 110,
-strength: 22,
+hp: 120,
+strength: 33,
 image:"assets/images/Naruto.png"
 },
 {
 name: "Kakashi",
 hp: 130,
-strength: 24,
+strength: 34,
 image:"assets/images/Kakashi.jpg"
 },
 {
 name: "Itachi",
-hp:150,
-strength:25,
+hp:130,
+strength:35,
 image:"assets/images/Itachi.png"
 },
 {
 name: "Orochimaru ",
-hp: 160,
-strength:30,
+hp: 145,
+strength:33,
 image:"assets/images/Orchimaru.jpg"
 },
 ]
