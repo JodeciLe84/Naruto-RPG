@@ -29,9 +29,10 @@ body{
 </head>
 
 <body>
-<audio id="introSong" controls autoplay >
-<source src="game-theme.mp3" type="audio/ogg">
-</audio>
+
+  <audio id="song" controls autoplay >
+  <source src="game-theme.mp3" type="audio/ogg">
+  </audio>
 
 
   <div class="container">
@@ -59,7 +60,6 @@ crossorigin="anonymous"></script>
 
 <script>
 
-
 $(document).ready ( function() {
 var chosenHero
 var chosenEnemy
@@ -68,13 +68,9 @@ var isEnemyChosen
 var isHeroAlive
 var isEnemyAlive
 
-
-
 function initGame () {
 isHeroChosen =false
 isEnemyChosen =false
-// myMusic = new sound("gametheme.mp3");
-// myMusic.play();
 
 // Getting Charter to show in first Row
 for(var i=0; i < charArr.length; i++){
@@ -143,10 +139,7 @@ $("#attackBTN").on("click", function() {
 function winOrLose() {
   if (chosenHero.hp <= 0) {
     console.log("you lose")
-    if (this.paused == false) {
-      this.pause();
-    // $("#introSong").pause
-    // $("#loseSong").play
+    $("#song").attr("src", "lose-theme.mp3")
     var reBTN = '<button id="replayButton" class="btn btn-primary"> Play Again </button>'
     $("#myBattle").empty()
     $("#attkRow").empty()
