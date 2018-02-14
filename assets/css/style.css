@@ -1,0 +1,15 @@
+.fader{
+    opacity : 0.4;
+}
+body{
+    background-image: url('../images/leaf-village.jpg');
+    background-size: cover;
+}
+#myEnemy, #myHero{
+  margin-top: 80px;
+}
+*{
+    font-family: 'Nanum Brush Script', cursive;
+    color: white;
+    font-size:  32px;
+}
