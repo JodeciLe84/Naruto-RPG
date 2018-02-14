@@ -53,7 +53,7 @@ body{
 </div>
 
 <script
-src="http://code.jquery.com/jquery-3.3.1.js"
+src="https://code.jquery.com/jquery-3.3.1.js"
 integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 crossorigin="anonymous"></script>
 
@@ -143,8 +143,10 @@ $("#attackBTN").on("click", function() {
 function winOrLose() {
   if (chosenHero.hp <= 0) {
     console.log("you lose")
-    $("#introSong").pause
-    $("#loseSong").play
+    if (this.paused == false) {
+      this.pause();
+    // $("#introSong").pause
+    // $("#loseSong").play
     
     var reBTN = '<button id="replayButton" class="btn btn-primary"> Play Again </button>'
     $("#myBattle").empty()
